@@ -15,8 +15,8 @@ Rails.application.routes.draw do
     end
   end
 
-  root "greetings#index"
+  root "root#index"
 
-  resource :greeting
- 
+  get '/greetings', to: 'root#index'
+
 end
