@@ -1,18 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const api = "http://localhost:3000/api/v1/greetings"
+const api = 'http://localhost:3000/api/v1/greetings';
 const initialState = {
   message: [],
   status: null,
-}
+};
 
 export const messageFetch = createAsyncThunk(
-  "message/messageFetch",
-  async() => {
+  'message/messageFetch',
+  async () => {
     const response = await axios.get(api);
-    return await response.data 
-  })
+    return response.data;
+  },
+);
 
 const greetingsSlice = createSlice({
   name: 'message',
@@ -20,18 +21,20 @@ const greetingsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-    .addCase(messageFetch.pending, (state, action) => {
-      state.status = "pending";
-    })
-    .addCase(messageFetch.fulfilled, (state, action) => {
-      state.status = "success";
-      state.message = action.payload;
-    
-    })
-    .addCase(messageFetch.rejected, (state, action) => {
-      state.status = "rejected";
-    })
-  }
-})
+      .addCase(messageFetch.pending, (state) => {
+        const IsPending = state;
+        IsPending.status = 'pending';
+      })
+      .addCase(messageFetch.fulfilled, (state, action) => {
+        const IsSuccessful = state;
+        IsSuccessful.status = 'success';
+        IsSuccessful.message = action.payload;
+      })
+      .addCase(messageFetch.rejected, (state) => {
+        const IsRejected = state;
+        IsRejected.status = 'rejected';
+      });
+  },
+});
 
 export default greetingsSlice.reducer;
